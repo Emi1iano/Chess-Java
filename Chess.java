@@ -70,51 +70,36 @@ public class Chess {
             // Initialize new possible moves
             if(isWhite()) {
                 if(firstTime) {
-                    if(board[getX()][getY() + 1] == null)
-                        moves.add(getX() * 10 + getY() + 1);
                     if(board[getX()][getY() + 2] == null && board[getX()][getY() + 1] == null)
                         moves.add(getX() * 10 + getY() + 2);
-                    // If to the left or right of the board dont go out of bounds
-                    if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
-                        if(board[getX() - 1][getY() + 1] != null && board[getX() - 1][getY() + 1].isBlack())
-                            moves.add((getX() - 1) * 10 + getY() + 1);
-                    // If to the left or right of the board dont go out of bounds
-                    if(0 <= getX() + 1 && getX() + 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
-                        if(board[getX() + 1][getY() + 1] != null && board[getX() + 1][getY() + 1].isBlack())
-                            moves.add((getX() + 1) * 10 + getY() + 1);
                 }
-                else {
-                    if(board[getX()][getY() + 1] == null)
-                        moves.add(getX() * 10 + getY() + 1);
-                     // If to the left or right of the board dont go out of bounds
-                     if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
-                     if(board[getX() - 1][getY() + 1] != null && board[getX() - 1][getY() + 1].isBlack())
-                         moves.add((getX() - 1) * 10 + getY() + 1);
-                 // If to the left or right of the board dont go out of bounds
-                 if(0 <= getX() + 1 && getX() + 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
-                     if(board[getX() + 1][getY() + 1] != null && board[getX() + 1][getY() + 1].isBlack())
-                         moves.add((getX() + 1) * 10 + getY() + 1);
-                }
+                if(board[getX()][getY() + 1] == null)
+                    moves.add(getX() * 10 + getY() + 1);
+                // If to the left or right of the board dont go out of bounds
+                if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
+                    if(board[getX() - 1][getY() + 1] != null && board[getX() - 1][getY() + 1].isBlack())
+                        moves.add((getX() - 1) * 10 + getY() + 1);
+                // If to the left or right of the board dont go out of bounds
+                if(0 <= getX() + 1 && getX() + 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
+                    if(board[getX() + 1][getY() + 1] != null && board[getX() + 1][getY() + 1].isBlack())
+                        moves.add((getX() + 1) * 10 + getY() + 1);
             }
             else if (isBlack()) {
                 if(firstTime) {
-                    if(board[getX()][getY() - 1] == null)
-                        moves.add(getX() * 10 + getY() - 1);
                     if(board[getX()][getY() - 2] == null && board[getX()][getY() - 1] == null)
                         moves.add(getX() * 10 + getY() - 2);
+                }
+                // Go forward one as black
+                if(board[getX()][getY() - 1] == null)
+                    moves.add(getX() * 10 + getY() - 1);
+                // Take left diagonal
+                if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() - 1 && getY() - 1 <= 8)
                     if(board[getX() - 1][getY() - 1] != null && board[getX() - 1][getY() - 1].isWhite())
                         moves.add((getX() - 1) * 10 + getY() - 1);
+                // Take right diagonal
+                if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() - 1 && getY() - 1 <= 8)
                     if(board[getX() + 1][getY() - 1] != null && board[getX() + 1][getY() - 1].isWhite())
                         moves.add((getX() + 1) * 10 + getY() - 1);
-                }
-                else {
-                    if(board[getX()][getY() - 1] == null)
-                        moves.add(getX() * 10 + getY() - 1);
-                    if(board[getX() - 1][getY() - 1] != null && board[getX() - 1][getY() - 1].isWhite())
-                        moves.add((getX() - 1) * 10 + getY() - 1);
-                    if(board[getX() + 1][getY() - 1] != null && board[getX() + 1][getY() - 1].isWhite())
-                        moves.add((getX() + 1) * 10 + getY() - 1);
-                }
             }
             // Check if move is valid
             int move = x * 10 + y;
@@ -211,12 +196,24 @@ public class Chess {
             // Clear previous moves
             moves.clear();
             // Initialize new possible moves
-
-
+            knightHelper(getX() + 1, getY() + 2);
+            knightHelper(getX() + 1, getY() - 2);
+            knightHelper(getX() - 1, getY() + 2);
+            knightHelper(getX() - 1, getY() - 2);
+            knightHelper(getX() + 2, getY() + 1);
+            knightHelper(getX() + 2, getY() - 1);
+            knightHelper(getX() - 2, getY() + 1);
+            knightHelper(getX() - 2, getY() - 1);
 
             
             // Check if move is valid
             return validMoveHelper(x, y);
+        }
+        public void knightHelper(int a, int b) {
+            if(0 <= a && a <= 7 && 0 <= b && b <= 7) {
+                if(board[a][b] == null || getColor() != board[a][b].getColor())
+                    moves.add(a * 10 + b);
+            } 
         }
     }
     public class Bishop extends Piece {
@@ -235,10 +232,22 @@ public class Chess {
             moves.clear();
             // Initialize new possible moves
 
-
+            
+            for(int a = 0; a < 8; a++) {
+                bishopHelper(getX() + a, getY() + a);
+                bishopHelper(getX() + a, getY() - a);
+                bishopHelper(getX() - a, getY() + a);
+                bishopHelper(getX() - a, getY() - a);
+            }
 
             // Check if move is valid
             return validMoveHelper(x, y);
+        }
+        public void bishopHelper(int a, int b) {
+            if(0 <= a && a <= 7 && 0 <= b && b <= 7)
+                if(board[a][b] == null || getColor() != board[a][b].getColor()) {
+                    moves.add(a * 10 + b);
+                }
         }
     }
     public class Queen extends Piece {
@@ -256,11 +265,67 @@ public class Chess {
             // Clear previous moves
             moves.clear();
             // Initialize new possible moves
-
+            // Left of Queen
+            for(int col = getX() - 1; col >= 0; col--) {
+                if(board[col][getY()] != null && board[col][getY()].getColor() == getColor()) {
+                    break;
+                }
+                else if (board[col][getY()] != null && board[col][getY()].getColor() != getColor()) {
+                    moves.add(col * 10 + getY());
+                    break;
+                }
+                moves.add(col * 10 + getY());
+            }
+            // Right of Queen
+            for(int col = getX() + 1; col < 8; col++) {
+                if(board[col][getY()] != null && board[col][getY()].getColor() == getColor()) {
+                    break;
+                }
+                else if (board[col][getY()] != null && board[col][getY()].getColor() != getColor()) {
+                    moves.add(col * 10 + getY());
+                    break;
+                }
+                moves.add(col * 10 + getY());
+            }
+            // Bottom of Queen
+            for(int row = getY() - 1; row >= 0; row--) {
+                if(board[getX()][row] != null && board[getX()][row].getColor() == getColor()) {
+                    break;
+                }
+                else if (board[getX()][row] != null && board[getX()][row].getColor() != getColor()) {
+                    moves.add(getX() * 10 + row);
+                    break;
+                }
+                moves.add(getX() * 10 + row);
+            }
+            // Top of Queen
+            for(int row = getY() + 1; row < 8; row++) {
+                if(board[getX()][row] != null && board[getX()][row].getColor() == getColor()) {
+                    break;
+                }
+                else if (board[getX()][row] != null && board[getX()][row].getColor() != getColor()) {
+                    moves.add(getX() * 10 + row);
+                    break;
+                }
+                moves.add(getX() * 10 + row);
+            }
+            // Diagonals
+            for(int a = 0; a < 8; a++) {
+                queenHelper(getX() + a, getY() + a);
+                queenHelper(getX() + a, getY() - a);
+                queenHelper(getX() - a, getY() + a);
+                queenHelper(getX() - a, getY() - a);
+            }
 
 
             // Check if move is valid
             return validMoveHelper(x, y);
+        }
+        public void queenHelper(int a, int b) {
+            if(0 <= a && a <= 7 && 0 <= b && b <= 7)
+                if(board[a][b] == null || getColor() != board[a][b].getColor()) {
+                    moves.add(a * 10 + b);
+                }
         }
     }
     public class King extends Piece {
@@ -279,13 +344,28 @@ public class Chess {
             moves.clear();
             // Initialize new possible moves
 
-
+            kingHelper(getX() + 0, getY() + 1);
+            kingHelper(getX() + 0, getY() - 1);
+            kingHelper(getX() + 1, getY() + 1);
+            kingHelper(getX() + 1, getY() - 1);
+            kingHelper(getX() + 1, getY() + 0);
+            kingHelper(getX() - 1, getY() + 1);
+            kingHelper(getX() - 1, getY() - 1);
+            kingHelper(getX() - 1, getY() + 0);
 
             // Check if move is valid
             return validMoveHelper(x, y);
         }
+        public void kingHelper(int a, int b) {
+            if(0 <= a && a <= 7 && 0 <= b && b <= 7)
+                if(board[a][b] == null || getColor() != board[a][b].getColor()) {
+                    moves.add(a * 10 + b);
+                }
+        }
     }
 
+    // Whos turn is it white is false black is true
+    boolean turn = false;
     Scanner in = new Scanner(System.in);
     Piece[][] board = new Piece[8][8]; 
 
@@ -332,14 +412,16 @@ public class Chess {
         if(!((1 <= sx && sx <= 8) && (1 <= sy && sy <= 8) && (1 <= ex && ex <= 8) && (1 <= ey && ey <= 8))) {
             return;
         }
-        
         if(board[sx - 1][sy - 1] == null) {
             return;
         }
-        else {
+        else if(turn == board[sx - 1][sy - 1].getColor()) {
             board[sx - 1][sy - 1].validMove(ex - 1, ey - 1);
+            if(turn)
+                turn = false;
+            else if(!turn)
+                turn = true;
         }
-        
     }
     public void printBoard() {
         for(int x = 7; x >= 0; x--) {
