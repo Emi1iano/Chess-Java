@@ -371,10 +371,6 @@ public class Chess {
 
     Chess() {
         initialize();
-        while(true) {
-            printBoard();
-            validMove(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt());
-        }
     }
     public void start() {};
     public void initialize() {
