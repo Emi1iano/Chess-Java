@@ -73,16 +73,19 @@ public class Chess {
                     if(board[getX()][getY() + 2] == null && board[getX()][getY() + 1] == null)
                         moves.add(getX() * 10 + getY() + 2);
                 }
-                if(board[getX()][getY() + 1] == null)
-                    moves.add(getX() * 10 + getY() + 1);
-                // If to the left or right of the board dont go out of bounds
-                if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
-                    if(board[getX() - 1][getY() + 1] != null && board[getX() - 1][getY() + 1].isBlack())
-                        moves.add((getX() - 1) * 10 + getY() + 1);
-                // If to the left or right of the board dont go out of bounds
-                if(0 <= getX() + 1 && getX() + 1 <= 8 && 0 <= getY() + 1 && getY() + 1 <= 8)
-                    if(board[getX() + 1][getY() + 1] != null && board[getX() + 1][getY() + 1].isBlack())
-                        moves.add((getX() + 1) * 10 + getY() + 1);
+                if(board[getX()][getY() + 1] == null) {
+                    pawnHelper(getX(), getY() + 1);
+                }
+                if(0 <= getX() + 1 && getX() + 1 <= 7 && 0 <= getY() + 1 && getY() + 1 <= 7) {
+                    if(board[getX() + 1][getY() + 1] != null && board[getX() + 1][getY() + 1].getColor() != getColor()) {
+                        pawnHelper(getX() + 1, getY() + 1);
+                    }
+                }
+                if(0 <= getX() - 1 && getX() - 1 <= 7 && 0 <= getY() + 1 && getY() + 1 <= 7) {
+                    if(board[getX() - 1][getY() + 1] != null && board[getX() - 1][getY() + 1].getColor() != getColor()) {
+                        pawnHelper(getX() - 1, getY() + 1);
+                    }
+                }
             }
             else if (isBlack()) {
                 if(firstTime) {
@@ -93,11 +96,11 @@ public class Chess {
                 if(board[getX()][getY() - 1] == null)
                     moves.add(getX() * 10 + getY() - 1);
                 // Take left diagonal
-                if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() - 1 && getY() - 1 <= 8)
+                if(0 <= getX() - 1 && getX() - 1 < 8 && 0 <= getY() - 1 && getY() - 1 < 8)
                     if(board[getX() - 1][getY() - 1] != null && board[getX() - 1][getY() - 1].isWhite())
                         moves.add((getX() - 1) * 10 + getY() - 1);
                 // Take right diagonal
-                if(0 <= getX() - 1 && getX() - 1 <= 8 && 0 <= getY() - 1 && getY() - 1 <= 8)
+                if(0 <= getX() + 1 && getX() + 1 < 8 && 0 <= getY() - 1 && getY() - 1 < 8)
                     if(board[getX() + 1][getY() - 1] != null && board[getX() + 1][getY() - 1].isWhite())
                         moves.add((getX() + 1) * 10 + getY() - 1);
             }
@@ -114,6 +117,12 @@ public class Chess {
             else {
                 return false;
             }
+        }
+        public void pawnHelper(int a, int b) {
+            if(0 <= a && a <= 7 && 0 <= b && b <= 7) {
+                if(board[a][b] == null || getColor() != board[a][b].getColor())
+                    moves.add(a * 10 + b);
+            } 
         }
     }
     public class Rook extends Piece {
