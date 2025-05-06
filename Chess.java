@@ -399,10 +399,6 @@ public class Chess {
         board[6][0] = new Knight(false, 6, 0);
         board[7][0] = new Rook(false, 7, 0);
     }
-    // sx = Starting x position
-    // sy = Starting y position
-    // ex = Ending x position
-    // ey = Ending y posision
     public void validMove(int sx, int sy, int ex, int ey) {
         // Valid input?
         if(!((1 <= sx && sx <= 8) && (1 <= sy && sy <= 8) && (1 <= ex && ex <= 8) && (1 <= ey && ey <= 8))) {
@@ -412,11 +408,12 @@ public class Chess {
             return;
         }
         else if(turn == board[sx - 1][sy - 1].getColor()) {
-            board[sx - 1][sy - 1].validMove(ex - 1, ey - 1);
-            if(turn)
-                turn = false;
-            else if(!turn)
-                turn = true;
+            if(board[sx - 1][sy - 1].validMove(ex - 1, ey - 1)) {
+                if(turn)
+                    turn = false;
+                else if(!turn)
+                    turn = true;
+            }
         }
     }
     public void printBoard() {

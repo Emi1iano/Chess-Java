@@ -57,14 +57,12 @@ public class Gui extends Chess {
                 ex = x;
                 ey = y;
             }
-
             if ((sx != -1) && (ex != -1)) {
-                System.out.println("Second click");
-                boolean initialTurn = turn;
                 validMove(sx + 1, sy + 1, ex + 1, ey + 1);
-                if (initialTurn != turn) {
-                    updateBoard();
-                }
+                System.out.println("clicked!");
+                System.out.print("\033[H\033[2J");
+                if(turn) {System.out.println("Blacks Turn");}
+                else { System.out.println("Whites Turn");}
                 sx = -1;
                 sy = -1;
                 ex = -1;
@@ -78,11 +76,6 @@ public class Gui extends Chess {
     Tile[][] buttons = new Tile[8][8];
 
     HashMap<String, ImageIcon> Images = new HashMap<>();
-
-    // ImageIcon bPawnImg = new ImageIcon("b-pawn.png");
-    // Image scaledBPawn = bPawnImg.getImage().getScaledInstance(100, 100,
-    // Image.SCALE_SMOOTH);
-    // ImageIcon bPawn = new ImageIcon(scaledBPawn);
 
     Gui() {
         Clicked clicked = new Clicked();
@@ -101,14 +94,15 @@ public class Gui extends Chess {
 
                 button.addMouseListener(new MouseAdapter() {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
+                    public void mousePressed(MouseEvent e) {
                         Tile tile = (Tile) e.getSource();
 
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             // System.out.println(tile.y + 1);
                             // System.out.println(tile.x + 1);
                             clicked.click(tile.y, tile.x);
-                            System.out.println("clicked!");
+                            
+                            updateBoard();
                         }
                     }
                 });
@@ -151,7 +145,8 @@ public class Gui extends Chess {
             for (int y = 0; y < 8; y++) {
                 if (board[y][x] != null) {
                     buttons[y][x].setIcon(Images.get(board[y][x].getName()));
-                } else {
+                }
+                else {
                     buttons[y][x].setIcon(null);
                 }
             }
