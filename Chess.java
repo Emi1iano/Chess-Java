@@ -366,13 +366,14 @@ public class Chess {
 
     // Whos turn is it white is false black is true
     boolean turn = false;
+    boolean gameOver = false;
     Scanner in = new Scanner(System.in);
     Piece[][] board = new Piece[8][8]; 
 
     Chess() {
         initialize();
     }
-    public void start() {};
+    
     public void initialize() {
         board[0][7] = new Rook(true, 0, 7);
         board[1][7] = new Knight(true, 1, 7);
@@ -408,7 +409,12 @@ public class Chess {
             return;
         }
         else if(turn == board[sx - 1][sy - 1].getColor()) {
+            if(board[ex - 1][ey - 1] != null && (board[ex - 1][ey - 1].getName()).contains("King")) {
+                gameOver = true;
+            }
             if(board[sx - 1][sy - 1].validMove(ex - 1, ey - 1)) {
+                if(gameOver)
+                    System.exit(0);
                 if(turn)
                     turn = false;
                 else if(!turn)

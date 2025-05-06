@@ -91,17 +91,12 @@ public class Gui extends Chess {
                     buttons[y][x].setIcon(Images.get(board[y][x].getName()));
                 }
                 frame.add(button);
-
                 button.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         Tile tile = (Tile) e.getSource();
-
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            // System.out.println(tile.y + 1);
-                            // System.out.println(tile.x + 1);
                             clicked.click(tile.y, tile.x);
-                            
                             updateBoard();
                         }
                     }
